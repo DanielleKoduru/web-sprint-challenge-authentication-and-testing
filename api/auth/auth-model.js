@@ -6,8 +6,9 @@ function find() {
 }
 
 async function add(newUser) {
-    const [id] = id.req.newUser
-    return add(newUser)
+    const [id] = await db('users')
+    .insert(newUser)
+    return add(id)
 }
 
 function findById(id) {
@@ -22,8 +23,8 @@ function findById(id) {
 
 function findBy(username) {
     return db('users')
-    .select("*")
     .where(username)
+    .first()
 }
 
 module.exports = {
