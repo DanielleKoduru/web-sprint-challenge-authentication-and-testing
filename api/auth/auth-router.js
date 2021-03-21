@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const model = require('./auth-model')
 const { JWT_SECRET } = require('../secrets')
-const { restricted } = require('../../middleware/restricted')
 
 router.post('/register', async (req, res, next) => {
   // res.end('implement register, please!');
@@ -63,7 +62,7 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
-router.post('/login', restricted, async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
   // res.end('implement login, please!');
   /*
     IMPLEMENT
@@ -117,7 +116,7 @@ router.post('/login', restricted, async (req, res, next) => {
 
     res.cookie = ("token", token)
     res.status(200).json({
-      message: `Welcome, ${user[0].username}`,
+      message: `welcome, ${user.username}`,
       token: token,
     })
 

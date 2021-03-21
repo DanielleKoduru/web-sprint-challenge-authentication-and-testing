@@ -1,7 +1,7 @@
 const { JWT_SECRET } = require("../secrets");
 const jwt = require("jsonwebtoken")
 
-const restricted = async (req, res, next) => {
+module.exports = async (req, res, next) => {
   /*
     IMPLEMENT
 
@@ -35,6 +35,4 @@ const restricted = async (req, res, next) => {
     next(err)
   }
 };
-
-
-module.exports = { restricted }
+ 
