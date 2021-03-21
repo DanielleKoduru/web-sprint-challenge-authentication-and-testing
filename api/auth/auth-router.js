@@ -34,7 +34,7 @@ router.post('/register', async (req, res, next) => {
     const { username, password } = req.body
 
     if (!username || !password)
-      return res.status(404).json({
+      return res.status(409).json({
         message: "username and password required"
       })
 
@@ -46,13 +46,13 @@ router.post('/register', async (req, res, next) => {
     }
     const hashedPw = await bcrypt.hash(password, 4)
 
-    const newUser = await model.create({
+    const newUser = await model.add({
       username,
       password: hashedPw,
     })
 
     res.status(201).json({
-      user_id: newUser.user_id,
+      id: newUser.id,
       username: newUser.username,
       password: newUser.password,
     })
@@ -91,14 +91,14 @@ router.post('/login', async (req, res, next) => {
     const { username, password } = req.body
 
     if (!username || !password) {
-      return res.status(409).json({
+      return res.status(404).json({
         message: 'username and password required'
       })
     }
 
-    const user = await model.findBy({ username })
+    const user = await model.findBy(username)
     if (!user) {
-      return res.status(409).json({
+      return res.status(401).json({
         message: 'Invalid credentials'
       })
     }
@@ -111,7 +111,7 @@ router.post('/login', async (req, res, next) => {
     }
 
     const token = jwt.sign({
-      username: user[0].username,
+      username: user.username,
     }, JWT_SECRET);
 
     res.cookie = ("token", token)

@@ -5,26 +5,22 @@ function find() {
         .select("*")
 }
 
-async function add(newUser) {
-    const [id] = await db('users')
-        .insert(newUser)
-    return add(id)
-}
-
 function findById(id) {
     return db('users')
-        .where('id', id)
-        .first(
-            'id',
-            'username',
-            'password'
-        )
+        .where({ id })
+        .first()
 }
 
 function findBy(username) {
     return db('users')
-        .where(username)
+        .where({ username })
         .first()
+}
+
+async function add(newUser) {
+    const [id] = await db('users')
+        .insert(newUser)
+    return findById(id)
 }
 
 module.exports = {
